@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, StatusBar, ListView, Image, TouchableHighlight, Modal } from 'react-native';
+import { Platform, View, StyleSheet, Text, StatusBar, ListView, Image, TouchableHighlight, Modal } from 'react-native';
 import Header from './Header';
 import Details from './Details';
 
@@ -30,7 +30,11 @@ class PokemonList extends Component {
 
   renderDetailModal() {
     return (
-      <Modal animationType={"slide"} transparent={false}  visible={this.state.modalVisible}>
+      <Modal
+        animationType={"slide"}
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={() => this.handleModalPress() }>
         <Details
           handleModalPress={() => this.handleModalPress()}
           selectedPoke={this.state.selectedPoke} />
@@ -62,14 +66,21 @@ class PokemonList extends Component {
       />
     }
   }
+
+  renderStatusBar() {
+    if(Platform.OS === 'ios') {
+      <StatusBar
+       backgroundColor="white"
+       barStyle="light-content"
+      />
+    }
+  }
+
   render() {
     return(
 
       <Image style={styles.bgImage} source={require('../images/bg.jpg')}>
-        <StatusBar
-         backgroundColor="white"
-         barStyle="light-content"
-        />
+        {this.renderStatusBar()}
         <Header />
         {this.renderList()}
         {this.renderDetailModal()}
