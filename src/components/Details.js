@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, StatusBar, ListView, Image, TouchableHighlight, Modal } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableHighlight,
+ } from 'react-native';
 
 const POKE_URL = 'https://pokeapi.co/api/v2/pokemon/';
 
@@ -9,26 +15,25 @@ class Details extends Component {
     super();
     this.state = {
       pokemon: null
-    }
+    };
   }
 
   componentWillMount() {
-    fetch(POKE_URL+ this.props.selectedPoke)
-      .then( result => result.json())
-      .then( result => this.setState({ pokemon: result }) )
-      //.catch( () => this.props.handleModalPress() ) // if API cannot handle the request close the modal.
-      .catch( () => alert('I can\'t fetch data for ' + this.props.selectedPoke)) 
+    fetch(POKE_URL + this.props.selectedPoke)
+      .then(result => result.json())
+      .then(result => this.setState({ pokemon: result }))
+      .catch(() => alert(`I can\'t fetch data for ${this.props.selectedPoke}`));
   }
 
   renderInfo() {
-    if(this.state.pokemon) {
+    if (this.state.pokemon) {
       return (
         <View>
           <View style={styles.imageContainer}>
             <Image
               style={styles.image}
-              source={{uri: this.state.pokemon.sprites.front_default }}>
-            </Image>
+              source={{ uri: this.state.pokemon.sprites.front_default }}
+            />
           </View>
           <View style={styles.infoHead}>
             <View style={styles.textContainer}>
@@ -63,16 +68,20 @@ class Details extends Component {
             </View>
           </View>
         </View>
-      )
+      );
     }
   }
 
   render() {
-    return(
+    return (
       <View>
        <View style={styles.headerContainer}>
          <Text style={styles.headertitle}>{this.props.selectedPoke}</Text>
-         <TouchableHighlight style={styles.closeButton} onPress={this.props.handleModalPress} underlayColor='transparent'>
+         <TouchableHighlight
+           style={styles.closeButton}
+           onPress={this.props.handleModalPress}
+           underlayColor='transparent'
+         >
            <Text style={styles.closeButtonText}>Close</Text>
          </TouchableHighlight>
        </View>

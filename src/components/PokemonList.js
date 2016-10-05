@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Platform, View, StyleSheet, Text, StatusBar, ListView, Image, TouchableHighlight, Modal } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  StatusBar,
+  ListView,
+  Image,
+  TouchableHighlight,
+  Modal
+} from 'react-native';
 import Header from './Header';
 import Details from './Details';
 
@@ -10,7 +19,7 @@ class PokemonList extends Component {
 
   constructor() {
     super();
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       dataSource: null,
       modalVisible: false,
@@ -20,64 +29,75 @@ class PokemonList extends Component {
 
   componentWillMount() {
     fetch(POKE_API_URL)
-      .then( result => result.json())
-      .then( result => this.setState({ dataSource: this.ds.cloneWithRows(result.results) }) );
+      .then(result => result.json())
+      .then(result => this.setState({ dataSource: this.ds.cloneWithRows(result.results) }));
   }
 
   handleModalPress() {
-    this.setState({selectedPoke: null, modalVisible: false});
+    this.setState({ selectedPoke: null, modalVisible: false });
   }
 
   renderDetailModal() {
     return (
       <Modal
-        animationType={"slide"}
+        animationType={'slide'}
         transparent={false}
         visible={this.state.modalVisible}
-        onRequestClose={() => this.handleModalPress() }>
+        onRequestClose={() => this.handleModalPress()}
+      >
         <Details
           handleModalPress={() => this.handleModalPress()}
-          selectedPoke={this.state.selectedPoke} />
+          selectedPoke={this.state.selectedPoke}
+        />
       </Modal>
-    )
+    );
   }
 
   renderCards(row) {
-    const imagePath = parseInt(row.url.split('/pokemon/').pop());
+    const imagePath = parseInt(row.url.split('/pokemon/').pop(), 10);
 
     return (
-      <TouchableHighlight style={styles.listItem} onPress={() => this.setState({selectedPoke: row.name, modalVisible: true})}>
+      <TouchableHighlight
+        style={styles.listItem}
+        onPress={() => this.setState({ selectedPoke: row.name, modalVisible: true })}
+      >
         <Image
           style={styles.cardImage}
-          source={{uri: `${POKE_IMAGE_URL}${imagePath}.png` }}>
+          source={{ uri: `${POKE_IMAGE_URL}${imagePath}.png` }}
+        >
           <Text style={styles.cardText}>{row.name}</Text>
         </Image>
       </TouchableHighlight>
-    )
+    );
   }
 
   renderList() {
-    if( this.state.dataSource ) {
-      return <ListView
+    if (this.state.dataSource) {
+      return (
+        <ListView
         initialListSize={102}
         contentContainerStyle={styles.list}
         dataSource={this.state.dataSource}
-        renderRow={ rowData => this.renderCards(rowData) }
-      />
+        renderRow={rowData => this.renderCards(rowData)}
+        />
+      );
     }
   }
 
   renderStatusBar() {
-    if(Platform.OS === 'ios') {
-      <StatusBar
-       backgroundColor="white"
-       barStyle="light-content"
-      />
+    if (Platform.OS === 'ios') {
+      return (
+        <StatusBar
+         backgroundColor="white"
+         barStyle="light-content"
+        />
+      );
     }
   }
 
   render() {
-    return(
+    return (
+      /* eslint-disable global-require */
       <Image style={styles.bgImage} source={require('../images/bg.jpg')}>
         {this.renderStatusBar()}
         <Header />

@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const Header = () => {
-  return(
+const Header = () => (
     <View style={styles.container}>
       <Text style={styles.title}>Pokedex</Text>
     </View>
-  );
-};
+);
 
 const styles = {
   container: {
@@ -21,6 +19,6 @@ const styles = {
     paddingTop: 10,
     color: 'white'
   }
-}
+};
 
 export default Header;
