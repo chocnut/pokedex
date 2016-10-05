@@ -16,7 +16,8 @@ class Details extends Component {
     fetch(POKE_URL+ this.props.selectedPoke)
       .then( result => result.json())
       .then( result => this.setState({ pokemon: result }) )
-      .catch( () => this.props.handleModalPress() ) // if API cannot handle the request close the modal.
+      //.catch( () => this.props.handleModalPress() ) // if API cannot handle the request close the modal.
+      .catch( () => alert('I can\'t fetch data for ' + this.props.selectedPoke)) 
   }
 
   renderInfo() {

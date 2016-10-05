@@ -78,7 +78,6 @@ class PokemonList extends Component {
 
   render() {
     return(
-
       <Image style={styles.bgImage} source={require('../images/bg.jpg')}>
         {this.renderStatusBar()}
         <Header />
